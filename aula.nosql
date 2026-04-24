@@ -1,0 +1,201 @@
+Para iniciar o mongodb no cmd digite:
+mongosh
+
+Para criar um banco de dados:
+use primeirobanco
+
+Para criar uma colletion:
+db.primeiracollection.insertOne({ nome: "Matheus", idade: 30 })
+
+Para verificar os banco que existem:
+show dbs
+
+Para encontrar o dado que foi gravado na colletion:
+db.primeiracollection.findOne({})
+
+Vamos inserir mais um dado, nessa mesma collection:
+db.primeiracolletion.insertOne({ nome: "João", idade: 32, profissao: "Programador"})
+
+Para ver todos os dados que estão na collection:
+db.primeiracolletion.find()
+
+Criar um segundo banco:
+use segundobanco
+
+Criando uma collection nesse segundo banco:
+db.teste.insertOne({ number: 5 })
+
+Mostrando os banco que existem:
+show dbs
+
+Comando para ver em qual banco estou:
+db
+
+Criando terceiro banco:
+use terceirobanco
+
+Criando uma collection com dado no terceiro banco:
+db.testeterceiro.insertOne({ b: 10})
+
+Criando quarto banco:
+use quartobanco
+
+Criando collection e dados:
+db.pessoas.insertOne({ nome: "Marcia" })
+db.pessoas.insertOne({ nome: "João" })
+db.pessoas.insertOne({ nome: "João Vinicius" })
+
+Mostrar os dados salvos na collection acima:
+db.pessoas.find()
+
+Buscando pelo dado exato passando a chave valor do mesmo:
+db.pessoas.find({ nome: "Marcia" })
+db.pessoas.find({ nome: "Mariana" }) - Não existe
+
+Vamos criar uma collection complexa
+db.pessoas.insertOne ({ nome: "Luiza", idade: 22 , hobbies: ["Programar", "Ler" , "Correr", "Jogar"], profissao: "Programadora", esta_trabalhando: true})
+
+Para ver todos os dados, de forma organizada
+db.pessoas.find().pretty()
+
+Criando quinto banco:
+use quintobanco
+
+Exibindo todos os bancos:
+show dbs
+
+Determinando tamanho e máximo registro da collection:
+db.createCollection("minhacolecao", { capped: true, size: 1000, max: 3 })
+
+Inserindo dados na collection:
+db.minhacolecao.insertOne({ a: 1 })
+db.minhacolecao.insertOne({ a: 21 })
+db.minhacolecao.insertOne({ a: 221 })
+
+Mostrar os dados da collection:
+db.minhacolecao.find()
+
+Inserir mais um dado na collection:
+db.minhacolecao.insertOne({ a: 7 })
+
+Mostrar os dados da collection:
+db.minhacolecao.find()
+
+Exibindo collectiom:
+show collections
+
+Criando nova coleção limitada:
+db.createCollection("minhacolecao2", { capped: true, size: 1000, max: 3 })
+
+Exibindo collectiom:
+show collections
+
+Excluir a collection.
+db.minhacolecao2.drop()
+
+Exibindo novamento collection, a de cima foi excluida.
+show collections
+
+Excluindo o banco de dados:
+db.dropDatabase()
+
+Exibir os bancos de dados.
+show dbs
+
+Se eu quiser excluir um banco existente, acesso ele:
+use terceirobanco
+
+para depois excluir o banco:
+db.dropDatabase()
+
+Exibir os banco de dados:
+show dbs
+
+Comandoc para criar um banco e collection, importanto dados:
+mongoimport --db biblioteca --collection livros --file livros-tecnologia.json --jsonArray
+
+Exibir os bancos de dados:
+show dbs
+
+Entrar no banco importado:
+use biblioteca
+
+Comando para contar quantos dados tem na collection acima:
+db.livros.countDocuments()
+
+Ver todos os documentos na tela:
+db.livros.find().forEach(printjson)
+
+Ver todos os documentos em ordem crescente:
+db.livros.find({} ,
+{
+    _id: 0,
+    id: 1,
+    isbs: 1,
+    titulo: 1,
+    autor: 1,
+    numerodepaginas: 1,
+    datadapublicacao: 1
+}).sort({ id: 1 }).forEach(printjson)
+
+
+Exportar os documentos da collection para um arquivo JSON:
+mongoexport --uri mongodb://127.0.0.1:27017 -d biblioteca -c livros --jsonArray -o livrosexemplo.json
+
+Criar um novo banco de dados:
+use meuBanco
+
+Criar uma collection com um documentos:
+db.pessoas.insertOne({ nome: "Thomas", idade: 25 })
+
+Mostrando a collection:
+show collections
+
+Criando mais uma collection com um documento:
+db.enderecos.insertOne({ rua: "Rua Flores", numero: 22 })
+
+Mostrando a collection:
+show collections
+
+Ver o que está dentro da collection, ou seja, o documento:
+db.enderecos.find()
+db.pessoas.find()
+
+Exportando o banco de dados acima (caminho da pasta) backup:
+mongodump -d meuBanco -o meuBanco
+
+Excluir o banco de dados:
+db.dropDatabase()
+
+Restaurando um banco de dados via backup (caminho de pasta) restore:
+mongorestore meuBanco
+
+Ver banco de dados:
+Show dbs
+
+Acessando o banco de dados:
+use meuBanco
+
+Mostrando a collection:
+Show collections
+
+Ver o que está dentro da collection, ou seja, o documento:
+db.enderecos.find()
+db.pessoas.find()
+
+Monitorando o mongodb (caminho da pasta):
+mongostat
+
+Criando um documento:
+db.pessoas.insertOne({ nome: "Wecton", idade: 20 })
+
+Para parar o monitoramento do mongodb (caminho da pasta):
+CRTROL + C
+
+Remover todos os bancos de dados, ao mesmo tempo (preservando a config):
+Mongo().getDBNames().forEach(function(db){
+    if(['admin', 'config', 'local'].indexOf(db) < 0){
+        Mongo().getDB(db).dropDatabase();
+
+    }
+});
