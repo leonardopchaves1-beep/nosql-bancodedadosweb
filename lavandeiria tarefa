@@ -1,0 +1,77 @@
+criando banco de dados: 
+use cleanfast
+
+criando collections clientes: 
+
+db.clientes.insertOne({nome:"Ana Maria", telefone: 9999-1111, ativo: true,
+serviços: ["lavagem","secagem"]})
+
+db.clientes.insertOne({nome:"Igor Silva", telefone: 9999-2222, ativo: true,
+serviços: ["higienização","secagem"]})
+
+
+exibindo documentos: 
+db.clientes.find()
+
+criando um collections  para pedidos:
+
+db.pedidos.insertOne({
+  cliente: "Ana Maria",
+  servicos: ["Lavagem","secagem"],
+  valorTotal: 100,
+  status: "Pronto"
+})
+
+db.pedidos.insertOne({
+  cliente: "Igor Silva",
+  servicos: ["higienização","secagem"],
+  valorTotal: 200,
+  status: "em processo"
+})
+
+buscando todos os pedidos: 
+db.pedidos.find()
+
+buscando um status especifico:
+db.pedidos.find({ status: "em processo" })
+
+6- atualizando um status  de um pedido em processo para finalizado:
+db.pedidos.updateOne({status: "em processo"}, {$set: {status:"finalizado"}})
+
+7- atualizando varios documentos ao mesmo tempo.
+*{}* para alterar todos.
+db.pedidos.updateMany({}, {$set: {status:"finalizado"}})
+
+8- criando um constante para armazenar um documento. 
+const  = db.arrays.findOne()
+
+9 - faça exclusão de documentos especifico, e em seguida  de varios documentos que tem
+o mesmo critério:
+
+db.clientes.deleteOne({nome:"Ana Maria"})
+
+deletando varios documents com dado em comum:
+db.pedidos.deleteMany({ valorTotal: { $gt: 90 } })
+
+10- criar usuario com permissão de leitura: 
+
+db.createUser({
+    user:"clienteLeitor",
+    pwd: "senhaLeitura",
+    roles: [
+        { role: "read", db: "cleanfast"}
+    ]
+})
+
+11 - faça uma lista dos usuários existente e depois exclua o usuario criado anteriormente:
+listar os usuários existents no banco: 
+db.getUsers()
+
+excluindo usuario especifico:
+db.dropUser("clienteLeitor")
+
+12- faça exclusão de uma collection e depois do banco de dados. 
+
+db.clientes.drop()
+
+db.dropDatabase()
